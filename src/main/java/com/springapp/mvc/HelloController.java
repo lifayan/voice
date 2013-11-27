@@ -52,8 +52,8 @@ public class HelloController {
         tropo.say(VOICE(Voice.SIMON), VALUE("Thanks for calling Fantastic resort. Your call is very important to us, we will answer your call as soon as possible.  "));
         tropo.say(VOICE(Voice.SIMON),VALUE("Please press one to continue.  "));
 
-        tropo.ask(NAME("date"), BARGEIN(true), TIMEOUT(10.0f), REQUIRED(true)).and(
-                Do.say(VOICE(Voice.SIMON),VALUE("Please say or enter the date you want to book as four digital, for example 2311 means twenty third of November")),
+        tropo.ask(NAME("date"), BARGEIN(true), VOICE(Voice.SIMON),TIMEOUT(10.0f), REQUIRED(true)).and(
+                Do.say(VOICE(Voice.SIMON), VALUE("Please say or enter the date you want to book as four digital, for example 2311 means twenty third of November")),
                 Do.on(EVENT("success"), NEXT("bookingDate")),
                 Do.choices(VALUE("[4 DIGITS]")));
         tropo.render(response);
@@ -84,6 +84,28 @@ public class HelloController {
     }
 
     public static void main(String[] args) {
+        String token ="25f5f0a9930a7142a8062d87a11ee20268e12af6a377ef3c14b8ec97ecb09b6780b16fe2103ece9d4ee7e1b3";
+
+
+//        "token":"TOKEN",
+//                3
+//        "customerName":"John Dyer",
+//                4
+//        "numberToDial":"4075551212",
+//                5
+//        "msg":"the sky is falling."
+
+//        tring token = "bb308b34ed83d54cab226f4af7969e4c7d7d9196cdb3210b5ef0cb345616629005bfd05efe3f4409cd496ca2";
+        Tropo tropo = new Tropo();
+        Map params = new HashMap();
+        params.put("customerName","John Dyer");
+        params.put("numberToDial","+61432248706");
+        params.put("msg","Just a reminder");
+        params.put("network","PSTN");
+
+        TropoLaunchResult result = tropo.launchSession(token,params);
+        System.out.println("result = " + result);
+
 
     }
 
