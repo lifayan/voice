@@ -15,9 +15,9 @@
 
 <div id="centerList">
     <ul>
-             <li><span>UUID</span><span>From</span> <span>TO</span> <span>Booking Date</span>  <span>Calling time</span> </li>
+             <li><span>UUID</span>,<span>From</span>, <span>TO</span>, <span>Booking Date</span>,  <span>Calling time</span> </li>
     <c:forEach items="${items}" var="item">
-            <li><span>${item.id}</span><span>${item.from}</span> <span>${item.to}</span> <span>${item.bookingDate}</span>
+            <li><span>${item.id}</span>, <span>${item.from}</span>, <span>${item.to}</span>, <span>${item.bookingDate}</span>,
     <span><fmt:formatDate type="both"  dateStyle="short" timeStyle="short"   value="${item.createDate}" /></span> </li>
     </c:forEach>
     </ul>
