@@ -17,45 +17,22 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/")
 public class DemoController {
-    static String template;
+
 
     @RequestMapping(value = "/template", method = RequestMethod.POST)
     public String updateTemplate(ModelMap model, @RequestParam("template") String str) {
-        template = str;
-        System.out.println("template = " + template);
-        model.addAttribute("template", template);
+        Repository.template = str;
+        System.out.println("template = " + Repository.template);
+        model.addAttribute("template", Repository.template);
         return "template";
     }
 
     @RequestMapping(value = "/template", method = RequestMethod.GET)
     public String showTemplate(ModelMap model) {
-        model.addAttribute("template", template);
+        model.addAttribute("template", Repository.template);
         return "template";
     }
 
-    @RequestMapping(value = "/voice")
-    public void voice(HttpServletRequest request, HttpServletResponse response) {
-
-        Tropo tropo = new Tropo();
-        try{
-        TropoSession session = tropo.session(request);
-            HelloController.items.addFirst(new Item(session.getCallId(), session.getFrom().getId(), session.getTo().getId()));
-        } catch (Exception e){
-            System.out.println("e.getMessage() = " + e.getMessage());
-        }
-
-        try {
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-
-            response.getWriter().write(template);
-            response.getWriter().flush();
-            response.getWriter().close();
-        } catch (IOException ioe) {
-            throw new RuntimeException("An error happened while rendering response", ioe);
-        }
-
-    }
 
 }
 

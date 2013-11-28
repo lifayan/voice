@@ -1,0 +1,36 @@
+{"tropo": [
+    {
+        "ask": {
+            "name": "date",
+            "bargein": true,
+            "timeout": 10,
+            "attempts": 10,
+"recognizer":"en-gb",
+"minConfidence":70,
+            "say": [
+                {
+                    "value": "Sorry, I didn't hear anything",
+                    "event": "timeout"
+                },
+{
+
+                  "value":"Sorry I didn't get that. ",
+
+                  "event":"nomatch"
+
+               },
+
+                {
+                    "value": "Please say or input the four digital date you want to book. For example zero one zero nine means the first of september."
+                }
+            ],
+           "choices": { "value":"[4 DIGITS]" }
+        }
+    },
+    {
+        "on": {
+            "event": "continue",
+            "next": "redirect"
+        }
+    }
+]}

@@ -22,9 +22,7 @@
                     "value": "Press #1 for Customer Support. Press #2 for sales. Press #3 for emergencies. Press #4 for any other thing."
                 }
             ],
-            "choices": {
-                "value": "[1 DIGIT]"
-            }
+            "choices": { "value": "sales(1, sales), support(2, support)" }
         }
     },
     {
