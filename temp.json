@@ -1,36 +1,36 @@
 {"tropo": [
     {
-        "say": [
-            {
-                "value": "Welcome to our company. Please enter the number of the department you wish to be forwarded to:"
-            }
-        ]
-    },
-    {
         "ask": {
-            "name": "userChoice",
+            "name": "date",
             "bargein": true,
-            "mode": "dtmf",
+            "voice": "simon",
             "timeout": 10,
-            "attempts": 2,
+            "required": true,
+            "attempts": 10,
+            "recognizer": "en-gb",
+            "minConfidence": 70,
             "say": [
                 {
-                    "value": "Sorry, I didn't hear anything",
+                    "value": "Sorry, I didn't hear anything.",
                     "event": "timeout"
                 },
                 {
-                    "value": "Press #1 for Customer Support. Press #2 for sales. Press #3 for emergencies. Press #4 for any other thing."
+                    "value": "Sorry I didn't get that.",
+                    "event": "nomatch"
+                },
+                {
+                    "value": "Please say or enter the date you would like to book as four digital. For example two three one one means twenty third of November."
                 }
             ],
             "choices": {
-                "value": "[1 DIGIT]"
+                "value": "[4 DIGITS]"
             }
         }
     },
     {
         "on": {
             "event": "continue",
-            "next": "redirect"
+            "next": "selection"
         }
     }
 ]}

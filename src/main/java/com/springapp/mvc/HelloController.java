@@ -98,54 +98,40 @@ public class HelloController {
         tropo.on(EVENT("incomplete"), NEXT("loop"));
         tropo.render(response);
     }
-//    @RequestMapping(value = "/loop")
-//    public void loop(HttpServletRequest request, HttpServletResponse response) {
-//        Tropo tropo = new Tropo();
-//        tropo.say(VOICE(Voice.SIMON), VALUE("Thanks for hold the line. Your call is important to us, we will answer your call as soon as possible.  "));
-//        tropo.ask(NAME("foo"), BARGEIN(true), TIMEOUT(30.0f), INTERDIGIT_TIMEOUT(5), REQUIRED(true),
-//                ALLOW_SIGNALS("exit", "stopHold"), ATTEMPTS(5), MIN_CONFIDENCE(3), RECOGNIZER(Recognizer.BRITISH_ENGLISH), VOICE(Voice.SIMON)).and(
-//                Do.say("Please say self service or press one if you want to try our self service, otherwise please hold the line."),
-//                Do.on(EVENT("success"), NEXT("bookingDate")),
-//                Do.choices(VALUE("self service(1, self service)"))
-//        );
-//        tropo.on(EVENT("continue"), NEXT("loop"));
-//        tropo.render(response);
-//    }
-
     //todo
 //    String formatDate(String bookingDate){
 //        Map month = new HashMap();
 //
 //    }
 
-    @RequestMapping(value = "/confirmDate")
-    public void bookingDate(HttpServletRequest request, HttpServletResponse response) {
-        Tropo tropo = new Tropo();
-        TropoSession session = tropo.session(request);
-        Item item = addOrUpdateItem(session.getCallId());
-        if (item != null) {
-            TropoResult result = tropo.parse(request);
-            ActionResult actionResult = result.getActions().get(0);
-            String bookingDate = actionResult.getValue();
-
-            tropo.ask(NAME("confirmBooking"), BARGEIN(true),VOICE(Voice.SIMON), MODE(DTMF), TIMEOUT(10f), ATTEMPTS(10), RECOGNIZER(Recognizer.BRITISH_ENGLISH), MIN_CONFIDENCE(70)).and(
-                    Do.say(VALUE("Sorry, I didn't hear anything."), EVENT("timeout"))
-                            .say(VALUE("Sorry I didn't get that."), EVENT("nomatch"))
-                            .say("We have booked you in on " + bookingDate + ". Please say no, one or press #1 if you want to change the date. " +
-                                    "Otherwise please hang off. we will ring you to remind you one day prior to the booking date"),
-                    Do.choices(VALUE("No(1,No)")),
-                    Do.on(EVENT("success"), NEXT("askDate"))
-            );
-            item.setBookingDate(bookingDate);
-        } else {
-            tropo.say(VOICE(Voice.SIMON), VALUE("Sorry there are something wrong with our system, please ring us to try again"));
-        }
-        tropo.hangup();
-        if (item != null) {
-            item.setStatus("Offline");
-        }
-        tropo.render(response);
-    }
+//    @RequestMapping(value = "/confirmDate")
+//    public void bookingDate(HttpServletRequest request, HttpServletResponse response) {
+//        Tropo tropo = new Tropo();
+//        TropoSession session = tropo.session(request);
+//        Item item = addOrUpdateItem(session.getCallId());
+//        if (item != null) {
+//            TropoResult result = tropo.parse(request);
+//            ActionResult actionResult = result.getActions().get(0);
+//            String bookingDate = actionResult.getValue();
+//
+//            tropo.ask(NAME("confirmBooking"), BARGEIN(true),VOICE(Voice.SIMON), MODE(DTMF), TIMEOUT(10f), ATTEMPTS(10), RECOGNIZER(Recognizer.BRITISH_ENGLISH), MIN_CONFIDENCE(70)).and(
+//                    Do.say(VALUE("Sorry, I didn't hear anything."), EVENT("timeout"))
+//                            .say(VALUE("Sorry I didn't get that."), EVENT("nomatch"))
+//                            .say("We have booked you in on " + bookingDate + ". Please say no, one or press #1 if you want to change the date. " +
+//                                    "Otherwise please hang off. we will ring you to remind you one day prior to the booking date"),
+//                    Do.choices(VALUE("No(1,No)")),
+//                    Do.on(EVENT("success"), NEXT("askDate"))
+//            );
+//            item.setBookingDate(bookingDate);
+//        } else {
+//            tropo.say(VOICE(Voice.SIMON), VALUE("Sorry there are something wrong with our system, please ring us to try again"));
+//        }
+//        tropo.hangup();
+//        if (item != null) {
+//            item.setStatus("Offline");
+//        }
+//        tropo.render(response);
+//    }
 
     @RequestMapping(value = "/askDate")
     public void askDate(HttpServletRequest request, HttpServletResponse response) {
@@ -153,10 +139,9 @@ public class HelloController {
         tropo.ask(NAME("date"), BARGEIN(true), VOICE(Voice.SIMON), TIMEOUT(10.0f), REQUIRED(true),ATTEMPTS(10), RECOGNIZER(Recognizer.BRITISH_ENGLISH), MIN_CONFIDENCE(70)).and(
                 Do.say(VALUE("Sorry, I didn't hear anything."), EVENT("timeout"))
                         .say(VALUE("Sorry I didn't get that."), EVENT("nomatch"))
-                        .say("Please say or enter the date you want to book as four digital. For example two three one one means twenty third of November."),
-                Do.on(EVENT("success"), NEXT("selection")),
+                        .say("Please say or enter the date you would like to book as four digital. For example two three one one means twenty third of November."),
                 Do.choices(VALUE("[4 DIGITS]")));
-        tropo.on(EVENT("continue"), NEXT("confirmDate"));
+        tropo.on(EVENT("continue"), NEXT("selection"));
         tropo.render(response);
     }
 

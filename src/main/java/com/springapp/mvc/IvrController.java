@@ -4,6 +4,7 @@ import com.voxeo.tropo.ActionResult;
 import com.voxeo.tropo.Tropo;
 import com.voxeo.tropo.TropoResult;
 import com.voxeo.tropo.actions.Do;
+import com.voxeo.tropo.enums.Voice;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -41,7 +42,8 @@ public class IvrController {
         Tropo tropo = new Tropo();
         TropoResult result = tropo.parse(request);
         ActionResult actionResult = result.getActions().get(0);
-        tropo.say("you have chosed "+actionResult.getValue()+".");
+
+        tropo.say(VOICE(Voice.KATE),VALUE("you have chosen "+actionResult.getValue()+"."));
 //        Integer choice = Integer.parseInt(actionResult.getValue());
 //
 //        switch (choice) {
