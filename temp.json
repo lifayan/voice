@@ -1,0 +1,30 @@
+{"tropo": [
+    {
+        "ask": {
+            "name": "foo",
+            "bargein": true,
+            "timeout": 30,
+            "interdigitTimeout": 5,
+            "required": true,
+            "allowSignals": ["exit", "stopHold"],
+            "attempts": 5,
+            "minConfidence": 3,
+            "recognizer": "en-gb",
+            "voice": "simon",
+            "say": [
+                {
+                    "value": "Please say self service or press one if you want to try our self service, otherwise please hold the line."
+                }
+            ],
+            "on": [
+                {
+                    "event": "success",
+                    "next": "bookingDate"
+                }
+            ],
+            "choices": {
+                "value": "self service(1, self service)"
+            }
+        }
+    }
+]}

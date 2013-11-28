@@ -21,7 +21,7 @@ import static com.voxeo.tropo.enums.Mode.DTMF;
 @Controller
 @RequestMapping("/")
 public class HelloController {
-    static LinkedList<Item> items = new LinkedList<Item>();
+   public static LinkedList<Item> items = new LinkedList<Item>();
 
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
@@ -47,15 +47,15 @@ public class HelloController {
         return "hello";
     }
 
-    @RequestMapping(value = "/voice")
-    public void voice(HttpServletRequest request, HttpServletResponse response) {
-        Tropo tropo = new Tropo();
-        TropoSession session = tropo.session(request);
-        items.addFirst(new Item(session.getCallId(), session.getFrom().getId(), session.getTo().getId()));
-        tropo.say(VOICE(Voice.SIMON), VALUE("Thanks for calling Fantastic resort. All our customer service representative are currently busy. "));
-        tropo.on(EVENT("continue"), NEXT("loop"));
-        tropo.render(response);
-    }
+//    @RequestMapping(value = "/voice")
+//    public void voice(HttpServletRequest request, HttpServletResponse response) {
+//        Tropo tropo = new Tropo();
+//        TropoSession session = tropo.session(request);
+//        items.addFirst(new Item(session.getCallId(), session.getFrom().getId(), session.getTo().getId()));
+//        tropo.say(VOICE(Voice.SIMON), VALUE("Thanks for calling Fantastic resort. All our customer service representative are currently busy. "));
+//        tropo.on(EVENT("continue"), NEXT("loop"));
+//        tropo.render(response);
+//    }
 
     @RequestMapping(value = "/askDate")
     public void askDate(HttpServletRequest request, HttpServletResponse response) {
