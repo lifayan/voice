@@ -14,7 +14,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="spring-context-3.2.0.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="spring-expression-3.2.0.RELEASE" level="project" />
-    <orderEntry type="library" exported="" name="servlet-api-2.5" level="project" />
     <orderEntry type="library" exported="" name="aopalliance-1.0" level="project" />
     <orderEntry type="library" exported="" name="spring-beans-3.2.0.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="spring-core-3.2.0.RELEASE" level="project" />
@@ -33,6 +32,7 @@
     <orderEntry type="library" exported="" name="commons-lang-2.5" level="project" />
     <orderEntry type="library" exported="" name="commons-beanutils-1.8.0" level="project" />
     <orderEntry type="library" exported="" name="ezmorph-1.0.6" level="project" />
+    <orderEntry type="library" exported="" name="servlet-api-2.5" level="project" />
   </component>
 </module>
 

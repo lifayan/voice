@@ -3,7 +3,6 @@ package com.springapp.mvc;
 import com.springapp.mvc.domain.Item;
 import com.voxeo.tropo.*;
 import com.voxeo.tropo.actions.Do;
-import com.voxeo.tropo.enums.Recognizer;
 import com.voxeo.tropo.enums.Voice;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 import static com.voxeo.tropo.Key.*;
+import static com.voxeo.tropo.enums.Mode.DTMF;
 
 @Controller
 @RequestMapping("/")
@@ -69,17 +71,29 @@ public class HelloController {
     public void loop(HttpServletRequest request, HttpServletResponse response) {
         Tropo tropo = new Tropo();
         tropo.say(VOICE(Voice.SIMON), VALUE("Thanks for hold the line. Your call is important to us, we will answer your call as soon as possible.  "));
-        tropo.say(VOICE(Voice.SIMON), VALUE("Please say self service or press one if you want to try our self service, otherwise please hold the line.  "));
-
-        tropo.ask(NAME("foo"), BARGEIN(true), TIMEOUT(30.0f), INTERDIGIT_TIMEOUT(5), REQUIRED(true),
-                ALLOW_SIGNALS("exit", "stopHold"), ATTEMPTS(5), MIN_CONFIDENCE(3), RECOGNIZER(Recognizer.BRITISH_ENGLISH), VOICE(Voice.SIMON)).and(
-                Do.say("Please say self service or press one if you want to try our self service, otherwise please hold the line."),
-                Do.on(EVENT("success"), NEXT("bookingDate")),
-                Do.choices(VALUE("self service(1, self service)"))
+        tropo.ask(NAME("userChoice"), BARGEIN(true), MODE(DTMF), TIMEOUT(10f), ATTEMPTS(2)).and(
+                Do.say(VALUE("Sorry, I didn't hear anything"),EVENT("timeout"))
+                        .say("Press #1 for Customer Support. Press #2 for sales. Press #3 for emergencies. Press #4 for any other thing."),
+                Do.choices(VALUE("[1 DIGIT]")),
+                Do.on(EVENT("success"), NEXT("bookingDate"))
         );
+
         tropo.on(EVENT("continue"), NEXT("loop"));
         tropo.render(response);
     }
+//    }    @RequestMapping(value = "/loop")
+//    public void loop(HttpServletRequest request, HttpServletResponse response) {
+//        Tropo tropo = new Tropo();
+//        tropo.say(VOICE(Voice.SIMON), VALUE("Thanks for hold the line. Your call is important to us, we will answer your call as soon as possible.  "));
+//        tropo.ask(NAME("foo"), BARGEIN(true), TIMEOUT(30.0f), INTERDIGIT_TIMEOUT(5), REQUIRED(true),
+//                ALLOW_SIGNALS("exit", "stopHold"), ATTEMPTS(5), MIN_CONFIDENCE(3), RECOGNIZER(Recognizer.BRITISH_ENGLISH), VOICE(Voice.SIMON)).and(
+//                Do.say("Please say self service or press one if you want to try our self service, otherwise please hold the line."),
+//                Do.on(EVENT("success"), NEXT("bookingDate")),
+//                Do.choices(VALUE("self service(1, self service)"))
+//        );
+//        tropo.on(EVENT("continue"), NEXT("loop"));
+//        tropo.render(response);
+//    }
 
     //todo
 //    String formatDate(String bookingDate){
