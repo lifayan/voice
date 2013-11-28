@@ -2,18 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e14a1b7f-4bac-4a28-a709-097c40d0676b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/springapp/mvc/DemoController.java" afterPath="$PROJECT_DIR$/src/main/java/com/springapp/mvc/DemoController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/springapp/mvc/HelloController.java" afterPath="$PROJECT_DIR$/src/main/java/com/springapp/mvc/HelloController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/springapp/mvc/IvrController.java" afterPath="$PROJECT_DIR$/src/main/java/com/springapp/mvc/IvrController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/hello.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/hello.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/temp.json" afterPath="$PROJECT_DIR$/temp.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="voice.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="e14a1b7f-4bac-4a28-a709-097c40d0676b" time="1385597515025" ignored="false" />
     <file path="/hello.jsp" changelist="e14a1b7f-4bac-4a28-a709-097c40d0676b" time="1385556081732" ignored="false" />
-    <file path="/HelloController.java" changelist="e14a1b7f-4bac-4a28-a709-097c40d0676b" time="1385618373941" ignored="false" />
+    <file path="/HelloController.java" changelist="e14a1b7f-4bac-4a28-a709-097c40d0676b" time="1385618745280" ignored="false" />
     <file path="/Item.java" changelist="e14a1b7f-4bac-4a28-a709-097c40d0676b" time="1385551724884" ignored="false" />
     <file path="/.gitignore" changelist="e14a1b7f-4bac-4a28-a709-097c40d0676b" time="1385601485345" ignored="false" />
     <file path="/build.gradle" changelist="e14a1b7f-4bac-4a28-a709-097c40d0676b" time="1385544717602" ignored="false" />
@@ -83,27 +79,6 @@
     <breakpoint_rules />
     <ui_properties />
   </component>
-  <component name="DockManager">
-    <window id="1">
-      <content type="file-editors">
-        <state>
-          <leaf>
-            <file leaf-file-name="IvrController.java" pinned="false" current="false" current-in-tab="true">
-              <entry file="file://$PROJECT_DIR$/src/main/java/com/springapp/mvc/IvrController.java">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state line="21" column="25" selection-start="587" selection-end="587" vertical-scroll-proportion="0.06799531">
-                    <folding>
-                      <element signature="imports" expanded="true" />
-                    </folding>
-                  </state>
-                </provider>
-              </entry>
-            </file>
-          </leaf>
-        </state>
-      </content>
-    </window>
-  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="voice" />
@@ -113,7 +88,7 @@
       <file leaf-file-name="HelloController.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/springapp/mvc/HelloController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="94" column="34" selection-start="3416" selection-end="3420" vertical-scroll-proportion="1.403423">
+            <state line="150" column="24" selection-start="6525" selection-end="6525" vertical-scroll-proportion="0.48655257">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -181,7 +156,7 @@
       <file leaf-file-name="DemoController.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/springapp/mvc/DemoController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="0" selection-start="1202" selection-end="1202" vertical-scroll-proportion="0.0">
+            <state line="21" column="3" selection-start="639" selection-end="988" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -192,7 +167,7 @@
       <file leaf-file-name="hello.jsp" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/hello.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="5" selection-start="625" selection-end="625" vertical-scroll-proportion="-5.7916665">
+            <state line="32" column="48" selection-start="687" selection-end="687" vertical-scroll-proportion="-8.291667">
               <folding />
             </state>
           </provider>
@@ -892,13 +867,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/hello.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="5" selection-start="625" selection-end="625" vertical-scroll-proportion="-5.7916665">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sayNumberDemo">
       <provider selected="true" editor-type-id="text-editor">
         <state line="35" column="2" selection-start="834" selection-end="834" vertical-scroll-proportion="0.0">
@@ -937,6 +905,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/pages/hello.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="48" selection-start="687" selection-end="687" vertical-scroll-proportion="-8.291667">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/springapp/mvc/DemoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="3" selection-start="639" selection-end="988" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/springapp/mvc/IvrController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="21" column="25" selection-start="587" selection-end="587" vertical-scroll-proportion="0.06799531">
@@ -946,18 +930,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/springapp/mvc/DemoController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="0" selection-start="1202" selection-end="1202" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/springapp/mvc/HelloController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="94" column="34" selection-start="3416" selection-end="3420" vertical-scroll-proportion="1.403423">
+        <state line="150" column="24" selection-start="6525" selection-end="6525" vertical-scroll-proportion="0.48655257">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

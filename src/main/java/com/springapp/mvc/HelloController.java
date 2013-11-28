@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -102,7 +103,6 @@ public class HelloController {
                         .say("Please say self service or press #1 if you want to try our self service. Otherwise please hold the line, we will answer your call as soon as possible."),
                 Do.choices(VALUE("self service(1, self service)"))
         );
-        tropo.on(EVENT("incomplete"), NEXT("loop"));
         tropo.on(EVENT("continue"), NEXT("bookingDate"));
         tropo.render(response);
     }
@@ -146,8 +146,24 @@ public class HelloController {
         tropo.render(response);
     }
 
+    @RequestMapping(value = "/call", method = RequestMethod.POST)
+    public String call(ModelMap model, @RequestParam("number") String number) {
+        String token = "";
+        Tropo tropo = new Tropo();
+        Map params = new HashMap();
+        params.put("customerName", "Ryan");
+        params.put("numberToDial", "+61432248706");
+        params.put("say", "Hello this is a automatic call from Sensis Fantastic resort, just to remind that you have a booking with us.");
+        params.put("network", "PSTN");
+
+        TropoLaunchResult result = tropo.launchSession(token, params);
+
+        model.addAttribute("callResult", result.getSuccess());
+        return "template";
+    }
+
     public static void main(String[] args) {
-        String token = "25f5f0a9930a7142a8062d87a11ee20268e12af6a377ef3c14b8ec97ecb09b6780b16fe2103ece9d4ee7e1b3";
+
 
 
 //        "token":"TOKEN",
