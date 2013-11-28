@@ -1,0 +1,49 @@
+{"tropo": [
+    {
+        "say": [
+            {
+                "voice": "simon",
+                "value": "Your were put in the queue, we will answer your call shortly. Your call is important to us, we will answer your call as soon as possible.  "
+            }
+        ]
+    },
+    {
+        "ask": {
+            "name": "userChoice",
+            "bargein": true,
+            "mode": "dtmf",
+            "timeout": 10,
+            "attempts": 10,
+            "recognizer": "en-gb",
+            "minConfidence": 70,
+            "say": [
+                {
+                    "value": "Sorry, I didn't hear anything.",
+                    "event": "timeout"
+                },
+                {
+                    "value": "Sorry I didn't get that.",
+                    "event": "nomatch"
+                },
+                {
+                    "value": "Please say self service or press #1 if you want to try our self service. Otherwise please hold the line, we will answer your call as soon as possible."
+                }
+            ],
+            "choices": {
+                "value": "self service(1, self service)"
+            }
+        }
+    },
+    {
+        "on": {
+            "event": "incomplete",
+            "next": "loop"
+        }
+    },
+    {
+        "on": {
+            "event": "continue",
+            "next": "bookingDate"
+        }
+    }
+]}

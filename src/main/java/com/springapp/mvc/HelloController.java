@@ -59,9 +59,7 @@ public class HelloController {
         try {
             TropoSession session = tropo.session(request);
             Repository.items.addFirst(new Item(session.getCallId(), session.getFrom().getId(), session.getTo().getId()));
-        } catch (JSONException ignore) {
-
-        }
+        } catch (JSONException ignore) {        }
 
         if (StringUtils.isNotEmpty(Repository.template)) {
             try {
@@ -83,27 +81,20 @@ public class HelloController {
         }
     }
 
-    @RequestMapping(value = "/askDate")
-    public void askDate(HttpServletRequest request, HttpServletResponse response) {
-        Tropo tropo = new Tropo();
-        tropo.ask(NAME("date"), BARGEIN(true), VOICE(Voice.SIMON), TIMEOUT(10.0f), REQUIRED(true)).and(
-                Do.say(VOICE(Voice.SIMON), VALUE("Please say or enter the date you want to book as four digital, for example 2311 means twenty third of November")),
-                Do.on(EVENT("success"), NEXT("bookingDate")),
-                Do.choices(VALUE("[4 DIGITS]")));
-        tropo.render(response);
-    }
+
 
     @RequestMapping(value = "/loop")
     public void loop(HttpServletRequest request, HttpServletResponse response) {
         Tropo tropo = new Tropo();
-        tropo.say(VOICE(Voice.SIMON), VALUE("Your were put in the queue, we will answer your call shortly. Your call is important to us, we will answer your call as soon as possible.  "));
-        tropo.ask(NAME("userChoice"), BARGEIN(true), MODE(DTMF), TIMEOUT(10f), ATTEMPTS(10), RECOGNIZER(Recognizer.BRITISH_ENGLISH), MIN_CONFIDENCE(70)).and(
+        tropo.say(VOICE(Voice.SIMON), VALUE("Your were put in the queue. We will answer your call shortly. Your call is important to us, we will answer your call as soon as possible.  "));
+        tropo.ask(NAME("userChoice"), VOICE(Voice.SIMON), BARGEIN(true), MODE(DTMF), TIMEOUT(10f), ATTEMPTS(10), RECOGNIZER(Recognizer.BRITISH_ENGLISH), MIN_CONFIDENCE(70)).and(
                 Do.say(VALUE("Sorry, I didn't hear anything."), EVENT("timeout"))
                         .say(VALUE("Sorry I didn't get that."), EVENT("nomatch"))
-                        .say("Please say self service or press #1 if you want to try our self service. Otherwise please hold the line, we will answer your call as soon as possible."),
-                Do.choices(VALUE("self service(1, self service)"))
+                        .say("Please say booking, one or press #1 if you want to book use self service. Otherwise please hold the line, we will answer your call as soon as possible."),
+                Do.choices(VALUE("booking(1, booking), one(1, one)"))
         );
-        tropo.on(EVENT("continue"), NEXT("bookingDate"));
+        tropo.on(EVENT("continue"), NEXT("askDate"));
+        tropo.on(EVENT("incomplete"), NEXT("loop"));
         tropo.render(response);
     }
 //    @RequestMapping(value = "/loop")
@@ -126,7 +117,7 @@ public class HelloController {
 //
 //    }
 
-    @RequestMapping(value = "/bookingDate")
+    @RequestMapping(value = "/confirmDate")
     public void bookingDate(HttpServletRequest request, HttpServletResponse response) {
         Tropo tropo = new Tropo();
         TropoSession session = tropo.session(request);
@@ -134,15 +125,35 @@ public class HelloController {
         if (item != null) {
             TropoResult result = tropo.parse(request);
             ActionResult actionResult = result.getActions().get(0);
-            item.setBookingDate(actionResult.getValue());
-            tropo.say("thanks for booking with us, your booking date is " + item.getBookingDate());
+            String bookingDate = actionResult.getValue();
+
+            tropo.ask(NAME("confirmBooking"), BARGEIN(true),VOICE(Voice.SIMON), MODE(DTMF), TIMEOUT(10f), ATTEMPTS(10), RECOGNIZER(Recognizer.BRITISH_ENGLISH), MIN_CONFIDENCE(70)).and(
+                    Do.say(VALUE("Sorry, I didn't hear anything."), EVENT("timeout"))
+                            .say(VALUE("Sorry I didn't get that."), EVENT("nomatch"))
+                            .say("We have booked you in on "+bookingDate+". Please say no, one or press #1 if you want to change the date. " +
+                                    "Otherwise please hang off. we will ring you to remind you one day prior to the booking date"),
+                    Do.choices(VALUE("No(1,No)"))
+            );
+            item.setBookingDate(bookingDate);
+            tropo.on(EVENT("continue"), NEXT("askDate"));
+
         } else {
-            tropo.say("Sorry, you didn't book in, please ring us to try again");
+            tropo.say(VOICE(Voice.SIMON), VALUE("Sorry there are something wrong with our system, please ring us to try again"));
         }
         tropo.hangup();
         if (item != null) {
             item.setStatus("Offline");
         }
+        tropo.render(response);
+    }
+
+    @RequestMapping(value = "/askDate")
+    public void askDate(HttpServletRequest request, HttpServletResponse response) {
+        Tropo tropo = new Tropo();
+        tropo.ask(NAME("date"), BARGEIN(true), VOICE(Voice.SIMON), TIMEOUT(10.0f), REQUIRED(true),ATTEMPTS(10), RECOGNIZER(Recognizer.BRITISH_ENGLISH), MIN_CONFIDENCE(70)).and(
+                Do.say(VALUE("Please say or enter the date you want to book as four digital. For example 2311 means twenty third of November.")),
+                Do.on(EVENT("success"), NEXT("confirmDate")),
+                Do.choices(VALUE("[4 DIGITS]")));
         tropo.render(response);
     }
 
@@ -174,16 +185,17 @@ public class HelloController {
 //                5
 //        "msg":"the sky is falling."
 
-//        tring token = "bb308b34ed83d54cab226f4af7969e4c7d7d9196cdb3210b5ef0cb345616629005bfd05efe3f4409cd496ca2";
+
         Tropo tropo = new Tropo();
         Map params = new HashMap();
-        params.put("customerName", "John Dyer");
-        params.put("numberToDial", "+61432248706");
+        params.put("customerName", "Ryan LI");
+        params.put("numberToDial", "+61393957901");
         params.put("say", "Just a reminder");
         params.put("network", "PSTN");
+        tropo.call("+61393957901");
 
-        TropoLaunchResult result = tropo.launchSession(token, params);
-        System.out.println("result = " + result);
+//        TropoLaunchResult result = tropo.launchSession(token, params);
+//        System.out.println("result = " + result.getSuccess());
 
 
     }
