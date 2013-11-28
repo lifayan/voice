@@ -3,6 +3,7 @@ package com.springapp.mvc;
 import com.springapp.mvc.domain.Item;
 import com.voxeo.tropo.*;
 import com.voxeo.tropo.actions.Do;
+import com.voxeo.tropo.enums.Network;
 import com.voxeo.tropo.enums.Recognizer;
 import com.voxeo.tropo.enums.Voice;
 import net.sf.json.JSONException;
@@ -26,7 +27,7 @@ import static com.voxeo.tropo.enums.Mode.DTMF;
 @Controller
 @RequestMapping("/")
 public class HelloController {
-
+    private static String businessName ="Sensis Fantastic resort";
 
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
@@ -75,7 +76,7 @@ public class HelloController {
                 throw new RuntimeException("An error happened while rendering response", ioe);
             }
         } else {
-            tropo.say(VOICE(Voice.SIMON), VALUE("Thanks for calling Sensis Fantastic resort. All our customer service representative are currently busy. "));
+            tropo.say(VOICE(Voice.SIMON), VALUE("Thanks for calling "+businessName+". All our customer service representative are currently busy. "));
             tropo.on(EVENT("continue"), NEXT("loop"));
             tropo.render(response);
         }
@@ -130,13 +131,12 @@ public class HelloController {
             tropo.ask(NAME("confirmBooking"), BARGEIN(true),VOICE(Voice.SIMON), MODE(DTMF), TIMEOUT(10f), ATTEMPTS(10), RECOGNIZER(Recognizer.BRITISH_ENGLISH), MIN_CONFIDENCE(70)).and(
                     Do.say(VALUE("Sorry, I didn't hear anything."), EVENT("timeout"))
                             .say(VALUE("Sorry I didn't get that."), EVENT("nomatch"))
-                            .say("We have booked you in on "+bookingDate+". Please say no, one or press #1 if you want to change the date. " +
+                            .say("We have booked you in on " + bookingDate + ". Please say no, one or press #1 if you want to change the date. " +
                                     "Otherwise please hang off. we will ring you to remind you one day prior to the booking date"),
-                    Do.choices(VALUE("No(1,No)"))
+                    Do.choices(VALUE("No(1,No)")),
+                    Do.on(EVENT("success"), NEXT("askDate"))
             );
             item.setBookingDate(bookingDate);
-            tropo.on(EVENT("continue"), NEXT("askDate"));
-
         } else {
             tropo.say(VOICE(Voice.SIMON), VALUE("Sorry there are something wrong with our system, please ring us to try again"));
         }
@@ -151,9 +151,20 @@ public class HelloController {
     public void askDate(HttpServletRequest request, HttpServletResponse response) {
         Tropo tropo = new Tropo();
         tropo.ask(NAME("date"), BARGEIN(true), VOICE(Voice.SIMON), TIMEOUT(10.0f), REQUIRED(true),ATTEMPTS(10), RECOGNIZER(Recognizer.BRITISH_ENGLISH), MIN_CONFIDENCE(70)).and(
-                Do.say(VALUE("Please say or enter the date you want to book as four digital. For example 2311 means twenty third of November.")),
-                Do.on(EVENT("success"), NEXT("confirmDate")),
+                Do.say(VALUE("Sorry, I didn't hear anything."), EVENT("timeout"))
+                        .say(VALUE("Sorry I didn't get that."), EVENT("nomatch"))
+                        .say("Please say or enter the date you want to book as four digital. For example two three one one means twenty third of November."),
+                Do.on(EVENT("success"), NEXT("selection")),
                 Do.choices(VALUE("[4 DIGITS]")));
+        tropo.on(EVENT("continue"), NEXT("confirmDate"));
+        tropo.render(response);
+    }
+
+    @RequestMapping(value = "/callOut")
+    public void callOut(@RequestParam("numberToDial") String numberToDial, HttpServletResponse response) {
+        Tropo tropo = new Tropo();
+        tropo.call(numberToDial);
+        tropo.say(VOICE(Voice.SIMON), VALUE("This is an automatic call from "+businessName+". It is to remind you that you have booked a room for tomorrow.")) ;
         tropo.render(response);
     }
 
@@ -162,10 +173,7 @@ public class HelloController {
         String token = "";
         Tropo tropo = new Tropo();
         Map params = new HashMap();
-        params.put("customerName", "Ryan");
-        params.put("numberToDial", "+61432248706");
-        params.put("say", "Hello this is a automatic call from Sensis Fantastic resort, just to remind that you have a booking with us.");
-        params.put("network", "PSTN");
+        params.put("numberToDial", number);
 
         TropoLaunchResult result = tropo.launchSession(token, params);
 
@@ -184,18 +192,13 @@ public class HelloController {
 //        "numberToDial":"4075551212",
 //                5
 //        "msg":"the sky is falling."
-
-
         Tropo tropo = new Tropo();
+        String token ="";
         Map params = new HashMap();
-        params.put("customerName", "Ryan LI");
         params.put("numberToDial", "+61393957901");
-        params.put("say", "Just a reminder");
-        params.put("network", "PSTN");
-        tropo.call("+61393957901");
 
-//        TropoLaunchResult result = tropo.launchSession(token, params);
-//        System.out.println("result = " + result.getSuccess());
+        TropoLaunchResult result = tropo.launchSession(token, params);
+        System.out.println("result = " + result.getSuccess());
 
 
     }
