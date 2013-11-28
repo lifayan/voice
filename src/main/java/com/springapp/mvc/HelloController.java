@@ -49,13 +49,26 @@ public class HelloController {
         Tropo tropo = new Tropo();
         TropoSession session = tropo.session(request);
         items.addFirst(new Item(session.getCallId(), session.getFrom().getId(), session.getTo().getId()));
-        tropo.say(VOICE(Voice.SIMON), VALUE("Thanks for calling Fantastic resort. Your call is very important to us, we will answer your call as soon as possible.  "));
-        tropo.say(VOICE(Voice.SIMON),VALUE("Please press one to continue.  "));
+        tropo.say(VOICE(Voice.SIMON), VALUE("Thanks for calling Fantastic resort. All our customer service representative are currently busy. "));
+        tropo.on(EVENT("continue"), NEXT("loop"));
+        tropo.render(response);
+    }
 
+    @RequestMapping(value="/askDate")
+    public void askDate(HttpServletRequest request, HttpServletResponse response) {
+        Tropo tropo = new Tropo();
         tropo.ask(NAME("date"), BARGEIN(true), VOICE(Voice.SIMON),TIMEOUT(10.0f), REQUIRED(true)).and(
                 Do.say(VOICE(Voice.SIMON), VALUE("Please say or enter the date you want to book as four digital, for example 2311 means twenty third of November")),
                 Do.on(EVENT("success"), NEXT("bookingDate")),
                 Do.choices(VALUE("[4 DIGITS]")));
+        tropo.render(response);
+    }
+
+    @RequestMapping(value="/loop")
+    public void loop(HttpServletRequest request, HttpServletResponse response) {
+        Tropo tropo = new Tropo();
+        tropo.say(VOICE(Voice.SIMON), VALUE("Thanks for hold the line. Your call is important to us, we will answer your call as soon as possible.  "));
+        tropo.say(VOICE(Voice.SIMON),VALUE("Please say self service or press one if you want to try our self service, otherwise please hold the line.  "));
         tropo.render(response);
     }
 

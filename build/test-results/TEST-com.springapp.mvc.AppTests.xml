@@ -1,0 +1,39 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<testsuite name="com.springapp.mvc.AppTests" tests="1" failures="0" errors="0" timestamp="1970-01-01T00:00:00" hostname="ryan-li-Veriton-S6620G" time="1.385597250444E9">
+  <properties/>
+  <testcase name="simple" classname="com.springapp.mvc.AppTests" time="0.559"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[28/11/2013 11:07:29 AM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFO: Loading XML bean definitions from URL [file:src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml]
+28/11/2013 11:07:30 AM org.springframework.context.support.AbstractApplicationContext prepareRefresh
+INFO: Refreshing org.springframework.web.context.support.GenericWebApplicationContext@4aeaf40c: startup date [Thu Nov 28 11:07:30 EST 2013]; root of context hierarchy
+28/11/2013 11:07:30 AM org.springframework.beans.factory.support.DefaultListableBeanFactory preInstantiateSingletons
+INFO: Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@6c04ab2f: defining beans [helloController,org.springframework.context.annotation.internalConfigurationAnnotationProcessor,org.springframework.context.annotation.internalAutowiredAnnotationProcessor,org.springframework.context.annotation.internalRequiredAnnotationProcessor,org.springframework.context.annotation.internalCommonAnnotationProcessor,org.springframework.web.servlet.view.InternalResourceViewResolver#0,org.springframework.context.annotation.ConfigurationClassPostProcessor.importAwareProcessor]; root of factory hierarchy
+28/11/2013 11:07:30 AM org.springframework.mock.web.MockServletContext log
+INFO: Initializing Spring FrameworkServlet ''
+28/11/2013 11:07:30 AM org.springframework.web.servlet.FrameworkServlet initServletBean
+INFO: FrameworkServlet '': initialization started
+28/11/2013 11:07:30 AM org.springframework.web.servlet.handler.AbstractUrlHandlerMapping registerHandler
+INFO: Mapped URL path [//add] onto handler 'helloController'
+28/11/2013 11:07:30 AM org.springframework.web.servlet.handler.AbstractUrlHandlerMapping registerHandler
+INFO: Mapped URL path [//add.*] onto handler 'helloController'
+28/11/2013 11:07:30 AM org.springframework.web.servlet.handler.AbstractUrlHandlerMapping registerHandler
+INFO: Mapped URL path [//add/] onto handler 'helloController'
+28/11/2013 11:07:30 AM org.springframework.web.servlet.handler.AbstractUrlHandlerMapping registerHandler
+INFO: Mapped URL path [//voice] onto handler 'helloController'
+28/11/2013 11:07:30 AM org.springframework.web.servlet.handler.AbstractUrlHandlerMapping registerHandler
+INFO: Mapped URL path [//voice.*] onto handler 'helloController'
+28/11/2013 11:07:30 AM org.springframework.web.servlet.handler.AbstractUrlHandlerMapping registerHandler
+INFO: Mapped URL path [//voice/] onto handler 'helloController'
+28/11/2013 11:07:30 AM org.springframework.web.servlet.handler.AbstractUrlHandlerMapping registerHandler
+INFO: Mapped URL path [//bookingDate] onto handler 'helloController'
+28/11/2013 11:07:30 AM org.springframework.web.servlet.handler.AbstractUrlHandlerMapping registerHandler
+INFO: Mapped URL path [//bookingDate.*] onto handler 'helloController'
+28/11/2013 11:07:30 AM org.springframework.web.servlet.handler.AbstractUrlHandlerMapping registerHandler
+INFO: Mapped URL path [//bookingDate/] onto handler 'helloController'
+28/11/2013 11:07:30 AM org.springframework.web.servlet.handler.AbstractUrlHandlerMapping registerHandler
+INFO: Root mapping to handler 'helloController'
+28/11/2013 11:07:30 AM org.springframework.web.servlet.FrameworkServlet initServletBean
+INFO: FrameworkServlet '': initialization completed in 172 ms
+]]></system-err>
+</testsuite>
