@@ -70,7 +70,7 @@
     </c:forEach>
     </tbody>
     </table>
-
+    <div><h2>Please feel free to call 03 9008 8038 to try this demo.</h2> The call rate is just standard rate to landline.</div>
 </div>
 </body>
 </html>
