@@ -63,7 +63,7 @@
     <td>${item.id}</td>
     <td>${item.from}</td>
     <td>${item.to}</td>
-    <td>${item.bookingDate}</td>
+    <td>TBA</td>
     <td><fmt:formatDate type="both"  dateStyle="short" timeStyle="short"   value="${item.createDate}" /></td>
     <td><input type="button" value="call back to Remind"/> </td>
     </tr>

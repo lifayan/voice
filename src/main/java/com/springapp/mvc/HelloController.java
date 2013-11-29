@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +28,9 @@ import static com.voxeo.tropo.enums.Mode.DTMF;
 @Controller
 @RequestMapping("/")
 public class HelloController {
-    private static String BUSINESS_NAME ="Sensis Fantastic resort";
+    private static String BUSINESS_NAME = "Sensis Fantastic Resort";
+
+    private static String DEBUG_INFO;
 
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
@@ -44,7 +49,7 @@ public class HelloController {
     }
 
     @RequestMapping("/businessName")
-    public String businessName(ModelMap model,@RequestParam("businessName") String businessName){
+    public String businessName(ModelMap model, @RequestParam("businessName") String businessName) {
         BUSINESS_NAME = businessName;
         model.addAttribute("items", Repository.items);
         model.addAttribute("businessName", BUSINESS_NAME);
@@ -67,7 +72,8 @@ public class HelloController {
         try {
             TropoSession session = tropo.session(request);
             Repository.items.addFirst(new Item(session.getCallId(), session.getFrom().getId(), session.getTo().getId()));
-        } catch (JSONException ignore) {        }
+        } catch (JSONException ignore) {
+        }
 
         if (StringUtils.isNotEmpty(Repository.template)) {
             try {
@@ -83,11 +89,51 @@ public class HelloController {
                 throw new RuntimeException("An error happened while rendering response", ioe);
             }
         } else {
-            tropo.say(VOICE(Voice.SIMON), VALUE("Thanks for calling "+ BUSINESS_NAME +". All our customer service representative are currently busy. "));
+            tropo.say(VOICE(Voice.SIMON), VALUE("Thanks for calling " + BUSINESS_NAME + ". All our customer service representative are busy. "));
             tropo.on(EVENT("continue"), NEXT("loop"));
             tropo.render(response);
         }
     }
+
+//    @RequestMapping(value = "/debug")
+//    public void debug(HttpServletRequest request, HttpServletResponse response) {
+//        ServletInputStream in = null;
+//        BufferedReader br = null;
+//        StringBuilder sb = new StringBuilder();
+//
+//        String line;
+//        try {
+//            in = request.getInputStream();
+//            br = new BufferedReader(new InputStreamReader(in));
+//            while ((line = br.readLine()) != null) {
+//                sb.append(line);
+//            }
+//            DEBUG_INFO = sb.toString();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        } finally {
+//            try {
+//                in.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//            }
+//        }
+//
+//    }
+
+
+
+//    @RequestMapping(value = "/showDebug")
+//    public String showDebug(ModelMap model) {
+//            model.addAttribute("items", Repository.items);
+//            model.addAttribute("businessName", BUSINESS_NAME);
+//            model.addAttribute("debug", DEBUG_INFO);
+//            return "debug";
+//
+//    }
+
+
 
 
 
@@ -111,8 +157,30 @@ public class HelloController {
 //
 //    }
 
+//    @RequestMapping(value = "/bookDate")
+//    public void bookDate(HttpServletRequest request, HttpServletResponse response) {
+//        Tropo tropo = new Tropo();
+//        TropoSession session = tropo.session(request);
+//        Item item = addOrUpdateItem(session.getCallId());
+//        if (item != null) {
+//            TropoResult result = tropo.parse(request);
+//            ActionResult actionResult = result.getActions().get(0);
+//            String bookingDate = actionResult.getValue();
+//            item.setBookingDate(bookingDate);
+//            tropo.say(VOICE(Voice.SIMON),VALUE("You have been booked to "+bookingDate));
+//        } else {
+//            tropo.say(VOICE(Voice.SIMON), VALUE("Sorry there are something wrong with our system, please ring us to try again"));
+//        }
+//        tropo.hangup();
+//        if (item != null) {
+//            item.setStatus("Offline");
+//        }
+//        tropo.render(response);
+//    }
+//
 //    @RequestMapping(value = "/confirmDate")
-//    public void bookingDate(HttpServletRequest request, HttpServletResponse response) {
+//    public void confirmDate(HttpServletRequest request, HttpServletResponse response) {
+//        try{
 //        Tropo tropo = new Tropo();
 //        TropoSession session = tropo.session(request);
 //        Item item = addOrUpdateItem(session.getCallId());
@@ -137,13 +205,15 @@ public class HelloController {
 //        if (item != null) {
 //            item.setStatus("Offline");
 //        }
-//        tropo.render(response);
+//        tropo.render(response);} catch (Exception e){
+//            DEBUG_INFO = e.getMessage();
+//        }
 //    }
 
     @RequestMapping(value = "/askDate")
     public void askDate(HttpServletRequest request, HttpServletResponse response) {
         Tropo tropo = new Tropo();
-        tropo.ask(NAME("date"), BARGEIN(true), VOICE(Voice.SIMON), TIMEOUT(10.0f), REQUIRED(true),ATTEMPTS(10), RECOGNIZER(Recognizer.BRITISH_ENGLISH), MIN_CONFIDENCE(70)).and(
+        tropo.ask(NAME("date"), BARGEIN(true), VOICE(Voice.SIMON), TIMEOUT(10.0f), REQUIRED(true), ATTEMPTS(10), RECOGNIZER(Recognizer.BRITISH_ENGLISH), MIN_CONFIDENCE(70)).and(
                 Do.say(VALUE("Sorry, I didn't hear anything."), EVENT("timeout"))
                         .say(VALUE("Sorry I didn't get that."), EVENT("nomatch"))
                         .say("Please say or enter the date you would like to book as four digital. For example two three one one means twenty third of November."),
@@ -152,29 +222,28 @@ public class HelloController {
         tropo.render(response);
     }
 
-    @RequestMapping(value = "/callOut")
-    public void callOut(@RequestParam("numberToDial") String numberToDial, HttpServletResponse response) {
-        Tropo tropo = new Tropo();
-        tropo.call(numberToDial);
-        tropo.say(VOICE(Voice.SIMON), VALUE("This is an automatic call from "+ BUSINESS_NAME +". It is to remind you that you have booked a room for tomorrow.")) ;
-        tropo.render(response);
-    }
+//    @RequestMapping(value = "/callOut")
+//    public void callOut(@RequestParam("numberToDial") String numberToDial, HttpServletResponse response) {
+//        Tropo tropo = new Tropo();
+//        tropo.call(numberToDial);
+//        tropo.say(VOICE(Voice.SIMON), VALUE("This is an automatic call from " + BUSINESS_NAME + ". It is to remind you that you have booked a room for tomorrow."));
+//        tropo.render(response);
+//    }
 
-    @RequestMapping(value = "/call", method = RequestMethod.POST)
-    public String call(ModelMap model, @RequestParam("number") String number) {
-        String token = "";
-        Tropo tropo = new Tropo();
-        Map params = new HashMap();
-        params.put("numberToDial", number);
-
-        TropoLaunchResult result = tropo.launchSession(token, params);
-
-        model.addAttribute("callResult", result.getSuccess());
-        return "template";
-    }
+//    @RequestMapping(value = "/call", method = RequestMethod.POST)
+//    public String call(ModelMap model, @RequestParam("number") String number) {
+//        String token = "";
+//        Tropo tropo = new Tropo();
+//        Map params = new HashMap();
+//        params.put("numberToDial", number);
+//
+//        TropoLaunchResult result = tropo.launchSession(token, params);
+//
+//        model.addAttribute("callResult", result.getSuccess());
+//        return "template";
+//    }
 
     public static void main(String[] args) {
-
 
 
 //        "token":"TOKEN",
@@ -185,7 +254,7 @@ public class HelloController {
 //                5
 //        "msg":"the sky is falling."
         Tropo tropo = new Tropo();
-        String token ="";
+        String token = "";
         Map params = new HashMap();
         params.put("numberToDial", "+61393957901");
 

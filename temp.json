@@ -1,36 +1,16 @@
 {"tropo": [
     {
-        "ask": {
-            "name": "date",
-            "bargein": true,
-            "voice": "simon",
-            "timeout": 10,
-            "required": true,
-            "attempts": 10,
-            "recognizer": "en-gb",
-            "minConfidence": 70,
-            "say": [
-                {
-                    "value": "Sorry, I didn't hear anything.",
-                    "event": "timeout"
-                },
-                {
-                    "value": "Sorry I didn't get that.",
-                    "event": "nomatch"
-                },
-                {
-                    "value": "Please say or enter the date you would like to book as four digital. For example two three one one means twenty third of November."
-                }
-            ],
-            "choices": {
-                "value": "[4 DIGITS]"
+        "say": [
+            {
+                "voice": "simon",
+                "value": "Thanks for calling Sensis Fantastic resort. All our customer service representative are currently busy. "
             }
-        }
+        ]
     },
     {
         "on": {
             "event": "continue",
-            "next": "selection"
+            "next": "debug"
         }
     }
 ]}
