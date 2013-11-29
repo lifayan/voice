@@ -3,7 +3,6 @@ package com.springapp.mvc;
 import com.springapp.mvc.domain.Item;
 import com.voxeo.tropo.*;
 import com.voxeo.tropo.actions.Do;
-import com.voxeo.tropo.enums.Network;
 import com.voxeo.tropo.enums.Recognizer;
 import com.voxeo.tropo.enums.Voice;
 import net.sf.json.JSONException;
@@ -18,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 import static com.voxeo.tropo.Key.*;
@@ -27,11 +25,12 @@ import static com.voxeo.tropo.enums.Mode.DTMF;
 @Controller
 @RequestMapping("/")
 public class HelloController {
-    private static String businessName ="Sensis Fantastic resort";
+    private static String BUSINESS_NAME ="Sensis Fantastic resort";
 
     @RequestMapping(method = RequestMethod.GET)
     public String printWelcome(ModelMap model) {
         model.addAttribute("items", Repository.items);
+        model.addAttribute("businessName", BUSINESS_NAME);
         return "hello";
     }
 
@@ -42,6 +41,14 @@ public class HelloController {
             }
         }
         return null;
+    }
+
+    @RequestMapping("/businessName")
+    public String businessName(ModelMap model,@RequestParam("businessName") String businessName){
+        BUSINESS_NAME = businessName;
+        model.addAttribute("items", Repository.items);
+        model.addAttribute("businessName", BUSINESS_NAME);
+        return "hello";
     }
 
     @RequestMapping("/add")
@@ -76,7 +83,7 @@ public class HelloController {
                 throw new RuntimeException("An error happened while rendering response", ioe);
             }
         } else {
-            tropo.say(VOICE(Voice.SIMON), VALUE("Thanks for calling "+businessName+". All our customer service representative are currently busy. "));
+            tropo.say(VOICE(Voice.SIMON), VALUE("Thanks for calling "+ BUSINESS_NAME +". All our customer service representative are currently busy. "));
             tropo.on(EVENT("continue"), NEXT("loop"));
             tropo.render(response);
         }
@@ -149,7 +156,7 @@ public class HelloController {
     public void callOut(@RequestParam("numberToDial") String numberToDial, HttpServletResponse response) {
         Tropo tropo = new Tropo();
         tropo.call(numberToDial);
-        tropo.say(VOICE(Voice.SIMON), VALUE("This is an automatic call from "+businessName+". It is to remind you that you have booked a room for tomorrow.")) ;
+        tropo.say(VOICE(Voice.SIMON), VALUE("This is an automatic call from "+ BUSINESS_NAME +". It is to remind you that you have booked a room for tomorrow.")) ;
         tropo.render(response);
     }
 

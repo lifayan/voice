@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <style>
@@ -14,7 +15,7 @@
     font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
     font-size: 14px;
     margin: 55px;
-    width: 680px;
+    width: 880px;
     text-align: left;
     border-collapse: collapse;
     }
@@ -37,9 +38,13 @@
     </style>
 </head>
 <body>
-<h1>Sensis Fantastic Resort Phone Booking Record</h1>
+<h1>${businessName} Phone Booking Record</h1>
 
 <div id="centerList">
+    <form:form method="post" action="businessName">
+        <input name="businessName" value="${businessName}"/>
+        <input type="submit" value="Update businessName"/>
+    </form:form>
 
     <table id="hor-zebra" summary="Booking record">
     <thead>
@@ -49,6 +54,7 @@
     <th scope="col">TO Number</th>
     <th scope="col">Booking Date</th>
     <th scope="col">Calling time</th>
+    <th scope="col">CALL BACK</th>
     </tr>
     </thead>
     <tbody>
@@ -59,6 +65,7 @@
     <td>${item.to}</td>
     <td>${item.bookingDate}</td>
     <td><fmt:formatDate type="both"  dateStyle="short" timeStyle="short"   value="${item.createDate}" /></td>
+    <td><input type="button" value="call back to Remind"/> </td>
     </tr>
     </c:forEach>
     </tbody>
