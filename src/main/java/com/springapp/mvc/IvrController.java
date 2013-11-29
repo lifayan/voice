@@ -44,6 +44,7 @@ public class IvrController {
         ActionResult actionResult = result.getActions().get(0);
 
         tropo.say(VOICE(Voice.KATE),VALUE("you have chosen "+actionResult.getValue()+"."));
+        tropo.say(VOICE(Voice.KATE),VALUE("This is the end of the demo, bye bye."));
 //        Integer choice = Integer.parseInt(actionResult.getValue());
 //
 //        switch (choice) {

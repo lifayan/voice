@@ -140,7 +140,7 @@ public class HelloController {
     @RequestMapping(value = "/loop")
     public void loop(HttpServletRequest request, HttpServletResponse response) {
         Tropo tropo = new Tropo();
-        tropo.say(VOICE(Voice.SIMON), VALUE("Your were put in the queue. We will answer your call shortly. Your call is important to us, we will answer your call as soon as possible.  "));
+        tropo.say(VOICE(Voice.SIMON), VALUE("Your are the second in the queue. We will answer your call shortly. Your call is important to us, we will answer your call as soon as possible.  "));
         tropo.ask(NAME("userChoice"), VOICE(Voice.SIMON), BARGEIN(true), MODE(DTMF), TIMEOUT(10f), ATTEMPTS(10), RECOGNIZER(Recognizer.BRITISH_ENGLISH), MIN_CONFIDENCE(70)).and(
                 Do.say(VALUE("Sorry, I didn't hear anything."), EVENT("timeout"))
                         .say(VALUE("Sorry I didn't get that."), EVENT("nomatch"))
