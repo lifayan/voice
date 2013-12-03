@@ -32,12 +32,12 @@ public class HelloController {
 
     private static String DEBUG_INFO;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String printWelcome(ModelMap model) {
-        model.addAttribute("items", Repository.items);
-        model.addAttribute("businessName", BUSINESS_NAME);
-        return "hello";
-    }
+//    @RequestMapping(method = RequestMethod.GET)
+//    public String printWelcome(ModelMap model) {
+//        model.addAttribute("items", Repository.items);
+//        model.addAttribute("businessName", BUSINESS_NAME);
+//        return "hello";
+//    }
 
     private Item addOrUpdateItem(String uId) {
         for (Item item : Repository.items) {
@@ -222,13 +222,13 @@ public class HelloController {
         tropo.render(response);
     }
 
-//    @RequestMapping(value = "/callOut")
-//    public void callOut(@RequestParam("numberToDial") String numberToDial, HttpServletResponse response) {
-//        Tropo tropo = new Tropo();
-//        tropo.call(numberToDial);
-//        tropo.say(VOICE(Voice.SIMON), VALUE("This is an automatic call from " + BUSINESS_NAME + ". It is to remind you that you have booked a room for tomorrow."));
-//        tropo.render(response);
-//    }
+    @RequestMapping(value = "/call")
+    public void call(HttpServletResponse response) {
+        Tropo tropo = new Tropo();
+        tropo.call("+61477301232");
+        tropo.say(VOICE(Voice.SIMON), VALUE("this is just a test for Ryan LI!"));
+        tropo.render(response);
+    }
 
 //    @RequestMapping(value = "/call", method = RequestMethod.POST)
 //    public String call(ModelMap model, @RequestParam("number") String number) {
@@ -254,11 +254,8 @@ public class HelloController {
 //                5
 //        "msg":"the sky is falling."
         Tropo tropo = new Tropo();
-        String token = "";
-        Map params = new HashMap();
-        params.put("numberToDial", "+61393957901");
 
-        TropoLaunchResult result = tropo.launchSession(token, params);
+        TropoLaunchResult result = tropo.launchSession(token, null);
         System.out.println("result = " + result.getSuccess());
 
 

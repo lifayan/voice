@@ -1,16 +1,18 @@
 {"tropo": [
+
+    {
+        "call": {
+            "to": [
+                "+61393957901",
+                "+61477301232"
+            ]
+        }
+    },
     {
         "say": [
             {
-                "voice": "simon",
-                "value": "Thanks for calling Sensis Fantastic resort. All our customer service representative are currently busy. "
+                "value": "Hello, you were the first to answer."
             }
         ]
-    },
-    {
-        "on": {
-            "event": "continue",
-            "next": "debug"
-        }
     }
 ]}
